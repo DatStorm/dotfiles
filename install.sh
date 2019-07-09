@@ -40,8 +40,11 @@ function installPackages() {
 
     elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]]; then
         # Do something under 32 bits Windows NT platform
+        INSTALL="fix windows"
     elif [[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]]; then
         # Do something under 64 bits Windows NT platform
+        # FIXME:
+        INSTALL="FIX: WINDOWS"
     fi
 
 
@@ -110,37 +113,39 @@ function cloneDotfiles() {
 
 
 
-function setupVim() {
+function installVim() {
     echo "==================================="
-    echo "Setting up vim and neovim"
+    echo "Setting up vim"
     echo "==================================="
 
     cd ~/
 
+    sudo apt install vim
+
     # Link vimrc for both vim and neovim
-    ln -sf ~/dotfiles/.vimrc ~/.vimrc
-    ln -sf ~/dotfiles/.vimrc ~/.config/nvim/init.vim
+    #ln -sf ~/dotfiles/.vimrc ~/.vimrc
+    #ln -sf ~/dotfiles/.vimrc ~/.config/nvim/init.vim
 
     # Set up colors folder
-    mkdir -p ~/.vim/colors
-    mkdir -p ~/.config/nvim/colors
+    #mkdir -p ~/.vim/colors
+    #mkdir -p ~/.config/nvim/colors
 
     # Install vim-plug
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    #curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    #https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
-    local colors=($(ls ~/dotfiles/vim_colors))
-    for colorFile in $colors
-    do
-        ln -sf ~/dotfiles/vim_colors/$colorFile ~/.vim/colors/$colorFile
-        ln -sf ~/dotfiles/vim_colors/$colorFile ~/.config/nvim/colors/$colorFile
-    done
+    #local colors=($(ls ~/dotfiles/vim_colors))
+    #for colorFile in $colors
+    #do
+    #    ln -sf ~/dotfiles/vim_colors/$colorFile ~/.vim/colors/$colorFile
+    #    ln -sf ~/dotfiles/vim_colors/$colorFile ~/.config/nvim/colors/$colorFile
+    #done
 
-    echo "==================================="
-    echo "Vim and neovim setup complete"
-    echo "Once this process is complete open vim and run :PlugInstall"
-    echo "==================================="
+    #echo "==================================="
+    #echo "Vim and neovim setup complete"
+    #echo "Once this process is complete open vim and run :PlugInstall"
+    #echo "==================================="
 
 }
 
@@ -174,6 +179,103 @@ function useZsh() {
     chsh -s $(which zsh)
 }
 
+function installShutter() {
+
+    echo "==================================="
+    echo "Installing Shutter"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install shutter
+}
+
+function installGnomeShellIntegration() {
+
+    echo "==================================="
+    echo "Installing Gnome Shell integration Chrome"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt-get install chrome-gnome-shell
+
+}
+
+function installDarkTheme() {
+
+    echo "==================================="
+    echo "Installing Dark Them"
+    echo "==================================="
+
+    cd ~/
+
+    sudo add-apt-repository ppa:noobslab/themes
+    sudo apt-get update
+    sudo apt-get install arc-theme
+
+}
+
+function update() {
+
+    echo "==================================="
+    echo "Updating system"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt-get update
+}
+
+
+function installGit() {
+
+    echo "==================================="
+    echo "INstalling Git"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install git
+}
+
+
+function installMake() {
+
+    echo "==================================="
+    echo "INstalling Make"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install make
+}
+
+
+function installMaven() {
+
+    echo "==================================="
+    echo "INstalling Maven"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install maven
+}
+
+
+function installGuake() {
+    # https://vitux.com/install-and-use-guake-a-drop-down-terminal-emulator-for-ubuntu/
+    echo "==================================="
+    echo "INstalling Guake"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt-get install guake
+}
+
+
 
 function install() {
 
@@ -181,13 +283,22 @@ function install() {
     echo "Beginning Installation..."
     echo "==================================="
 
-    installPackages
-    installNodeJS
-    installNpmPackages
-    cloneDotfiles
-    setupVim
-#    setupTmux
-    useZsh
+    update 
+    installShutter
+    installGit
+    installGnomeShellIntegration
+    installDarkTheme
+    installVim
+    installMake 
+    installMaven
+    installGuake
+
+#    installPackages
+#    installNodeJS
+#    installNpmPackages
+#    cloneDotfiles
+##    setupTmux
+#    useZsh
 }
 
 install
