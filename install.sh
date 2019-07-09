@@ -272,9 +272,36 @@ function installGuake() {
 
     cd ~/
 
-    sudo apt-get install guake
+    sudo apt install guake
 }
 
+
+function installCurl() {
+
+    echo "==================================="
+    echo "INstalling Curl"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install curl
+}
+
+function installZshAndZplug() {
+
+    # depends on zsh, git and awk.
+    # https://github.com/zplug/zplug
+    echo "==================================="
+    echo "INstalling Zsh & ZPlug"
+    echo "==================================="
+
+    cd ~/
+
+    sudo apt install zsh 
+    sudo apt-get install gawk
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    
+}
 
 
 function install() {
@@ -292,6 +319,8 @@ function install() {
     installMake 
     installMaven
     installGuake
+    installCurl 
+    installZshAndZplug
 
 #    installPackages
 #    installNodeJS
